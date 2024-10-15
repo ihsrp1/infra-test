@@ -21,15 +21,9 @@ spec:
       containers:
         - name: mariadb
           image: mariadb:5.5
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              value: test
-            - name: MYSQL_DATABASE
-              value: test
-            - name: MYSQL_USER
-              value: test
-            - name: MYSQL_PASSWORD
-              value: test
+          envFrom:
+            - secretRef:
+                name: database-env
           ports:
             - containerPort: 3306
           volumeMounts:

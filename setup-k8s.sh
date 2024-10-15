@@ -47,16 +47,23 @@ echo "Applying Kubernetes configurations..."
 kubectl apply -f ./k8s/db
 kubectl apply -f ./k8s/application
 
-# Wait for running pods of the "myapp" deployment
-while true; do
-    running_pods=$(kubectl get pods -l app=myapp -o jsonpath='{.items[?(@.status.phase=="Running")].metadata.name}')
+# # Wait for running pods of the "myapp" deployment
+# while true; do
+#     running_pods=$(kubectl get pods -l app=myapp -o jsonpath='{.items[?(@.status.phase=="Running")].metadata.name}')
     
-    if [ -n "$running_pods" ]; then
-        echo "Running pods found for 'myapp'. Executing the service command..."
-        minikube service myapp-lb --url
-        break  # Exit the loop if running pods are found
-    else
-        echo "No running pods found for 'myapp'. Waiting for 2 seconds..."
-        sleep 2  # Wait for 2 seconds before checking again
-    fi
-done
+#     if [ -n "$running_pods" ]; then
+#         echo "Running pods found for 'myapp'. Executing the service command..."
+#         minikube service myapp-lb --url
+#         break  # Exit the loop if running pods are found
+#     else
+#         echo "No running pods found for 'myapp'. Waiting for 2 seconds..."
+#         sleep 2  # Wait for 2 seconds before checking again
+#     fi
+# done
+
+# Wait for Pods to be ready
+echo "Waiting for Pods to be ready..."
+kubectl wait --for=condition=available --timeout=600s deployment/myapp
+
+# Get the URL of the LoadBalancer service
+minikube service myapp-lb --url

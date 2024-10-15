@@ -18,7 +18,7 @@ export class Post {
   @Column("text")
   text: string;
 
-  @ManyToMany((type) => Category, {
+  @ManyToMany(() => Category, {
     cascade: true,
   })
   @JoinTable()

@@ -48,6 +48,6 @@
     "start": "tsc && node src/index.js",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
     "migration:start": "ts-node-dev ./node_modules/typeorm/cli.js migration:run && tsc && node src/index.js",
-    "lint": "eslint 'src/**/*.{js,ts}'"
+    "lint": "eslint 'src/**/*.ts'"
   }
 }

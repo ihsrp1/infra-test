@@ -9,7 +9,7 @@ import { AppRoutes } from "./routes";
 // note that it's not active database connection
 // TypeORM creates connection pools and uses them for your requests
 createConnection()
-  .then(async (connection) => {
+  .then(async () => {
     // create express app
     const app = express();
     app.use(bodyParser.json());
@@ -18,7 +18,7 @@ createConnection()
     AppRoutes.forEach((route) => {
       app[route.method](
         route.path,
-        (request: Request, response: Response, next: Function) => {
+        (request: Request, response: Response, next: express.NextFunction) => {
           route
             .action(request, response)
             .then(() => next)

@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: overload
+  labels:
+    app: overload
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: overload
+  template:
+    metadata:
+      name: overload
+      labels:
+        app: overload
+    spec:
+      containers:
+      - name: overload
+        image: busybox
+        command:
+        - /bin/sh
+        - -c
+        - "while true; do wget -q -O- http://myapp-lb/posts; done"

@@ -23,7 +23,7 @@ spec:
               app: my-app # Labels that this constraint applies to
       containers:
         - name: myapp
-          image: igorhsoares/interview-test:latest
+          image: ihsrp/infra-test:latest
           ports:
             - containerPort: 3000
           volumeMounts:

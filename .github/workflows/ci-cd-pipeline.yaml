@@ -35,7 +35,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t igorhsoares/interview-test .
+          docker build -t ihsrp/infra-test .
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
@@ -45,4 +45,4 @@ jobs:
 
       - name: Push Docker image
         run: |
-          docker push igorhsoares/interview-test
+          docker push ihsrp/infra-test

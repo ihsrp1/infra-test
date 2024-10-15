@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+  labels:
+    app: myapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      topologySpreadConstraints:
+        - maxSkew: 1 # Max allowed difference in pod count between zones
+          topologyKey: "topology.kubernetes.io/zone" # The label key to spread on
+          whenUnsatisfiable: DoNotSchedule # Do not schedule if not satisfiable
+          labelSelector:
+            matchLabels:
+              app: my-app # Labels that this constraint applies to
+      containers:
+        - name: myapp
+          image: igorhsoares/interview-test:latest
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: ormconfig-env
+              mountPath: /app/ormconfig.env
+              subPath: ormconfig.env
+      volumes:
+        - name: ormconfig-env
+          secret:
+            secretName: ormconfig-env

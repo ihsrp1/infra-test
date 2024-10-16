@@ -71,6 +71,38 @@ resource "kubernetes_deployment" "myapp" {
   }
 }
 
+resource "kubernetes_horizontal_pod_autoscaler_v2" "myapp_hpa" {
+  metadata {
+    name      = "myapp-hpa"
+    namespace = "default"
+  }
+
+  spec {
+    scale_target_ref {
+      api_version = "apps/v1"
+      kind        = "Deployment"
+      name        = "myapp"
+    }
+
+    min_replicas = 3
+    max_replicas = 10
+
+    metric {
+      type = "Resource"
+      
+      resource {
+        name = "cpu"
+        
+        target {
+          type               = "Utilization"
+          average_utilization = 75
+        }
+      }
+    }
+  }
+}
+
+
 resource "kubernetes_pod_disruption_budget" "myapp_pdb" {
   metadata {
     name      = "myapp-pdb"

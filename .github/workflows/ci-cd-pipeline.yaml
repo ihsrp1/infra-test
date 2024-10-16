@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'src/**'   # Only trigger the pipeline if there are changes in the src folder
 
 jobs:
   lint:

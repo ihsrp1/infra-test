@@ -30,6 +30,8 @@ spec:
             - name: ormconfig-env
               mountPath: /app/ormconfig.env
               subPath: ormconfig.env
+      imagePullSecrets:
+        - name: docker-registry-secret
       volumes:
         - name: ormconfig-env
           secret:

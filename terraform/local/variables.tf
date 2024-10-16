@@ -17,3 +17,18 @@ variable "db_password" {
   description = "The password for the database user"
   type        = string
 }
+
+variable "docker_registry_username" {
+  description = "The username for the Docker registry"
+  type        = string
+}
+
+variable "docker_registry_password" {
+  description = "The password for the Docker registry"
+  type        = string
+}
+
+variable "docker_registry_email" {
+  description = "The email for the Docker registry"
+  type        = string
+}

@@ -7,6 +7,27 @@ resource "kubernetes_secret" "ormconfig_env" {
   }
 }
 
+resource "kubernetes_secret" "docker_registry_secret" {
+  metadata {
+    name      = "docker-registry-secret"
+  }
+
+  type = "kubernetes.io/dockerconfigjson"
+
+  data = {
+    ".dockerconfigjson" = jsonencode({
+      auths = {
+        "https://index.docker.io/v1/" = {
+          username = var.docker_registry_username
+          password = var.docker_registry_password
+          email    = var.docker_registry_email
+          auth     = base64encode("${var.docker_registry_username}:${var.docker_registry_password}")
+        }
+      }
+    })
+  }
+}
+
 resource "kubernetes_deployment" "myapp" {
   metadata {
     name      = "myapp"
@@ -57,6 +78,10 @@ resource "kubernetes_deployment" "myapp" {
             mount_path = "/app/ormconfig.env"
             sub_path  = "ormconfig.env"
           }
+        }
+
+        image_pull_secrets {
+          name = kubernetes_secret.docker_registry_secret.metadata[0].name
         }
 
         volume {
